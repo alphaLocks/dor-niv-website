@@ -151,6 +151,11 @@ a:hover {
   transform: translateY(-2px);
 }
 
+.social-links a:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
 .site-nav a {
   padding: 10px 10px;
   border-radius: 999px;
@@ -826,6 +831,140 @@ details[open] summary {
   color: var(--accent-2);
 }
 
+.footer-credit a:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+/* Accessibility widget (built-in, no external dependencies) */
+.a11y-widget {
+  position: fixed;
+  inset-inline-start: 24px;
+  bottom: 24px;
+  z-index: 9999;
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.a11y-toggle {
+  appearance: none;
+  border: 1px solid rgba(234, 241, 242, 0.14);
+  background: rgba(15, 21, 24, 0.75);
+  color: var(--text);
+  border-radius: 999px;
+  padding: 10px 12px;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.a11y-toggle:hover {
+  text-decoration: underline;
+}
+
+.a11y-toggle:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.a11y-panel {
+  width: min(320px, calc(100vw - 32px));
+  background: rgba(11, 15, 17, 0.92);
+  border: 1px solid rgba(234, 241, 242, 0.14);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 12px;
+}
+
+.a11y-panel-title {
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.a11y-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.a11y-btn {
+  appearance: none;
+  border: 1px solid rgba(234, 241, 242, 0.14);
+  background: rgba(15, 21, 24, 0.75);
+  color: var(--text);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-weight: 700;
+}
+
+.a11y-btn:hover {
+  text-decoration: underline;
+}
+
+.a11y-btn:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+.a11y-check {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin: 0 0 10px;
+  color: rgba(234, 241, 242, 0.9);
+  font-weight: 700;
+}
+
+.a11y-check input {
+  width: 18px;
+  height: 18px;
+}
+
+.a11y-statement {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 6px;
+  font-weight: 800;
+  color: var(--accent-2);
+}
+
+.a11y-statement:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+}
+
+/* A11y preferences */
+html[data-a11y-font="-1"] {
+  font-size: 93.75%;
+}
+
+html[data-a11y-font="0"] {
+  font-size: 100%;
+}
+
+html[data-a11y-font="1"] {
+  font-size: 112.5%;
+}
+
+html[data-a11y-font="2"] {
+  font-size: 125%;
+}
+
+body[data-a11y-links="true"] a {
+  text-decoration: underline;
+}
+
+html[data-a11y-reduce-motion="true"] {
+  scroll-behavior: auto;
+}
+
+html[data-a11y-reduce-motion="true"] * {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}
+
 @media (max-width: 960px) {
   .hero-grid {
     grid-template-columns: 1fr;
@@ -948,6 +1087,11 @@ details[open] summary {
   transform: scale(0.95);
 }
 
+.whatsapp-float:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 4px;
+}
+
 @keyframes pulse-whatsapp {
   0% {
     box-shadow: 0 4px 20px rgba(37, 211, 102, 0.5), 0 0 0 0 rgba(37, 211, 102, 0.7);
@@ -968,4 +1112,149 @@ details[open] summary {
     inset-inline-end: 16px;
     bottom: 16px;
   }
+
+  .a11y-widget {
+    inset-inline-start: 16px;
+    bottom: 16px;
+  }
+}
+
+/* ========================================
+   Cookie Consent Banner
+   ======================================== */
+.cookie-banner {
+  position: fixed;
+  inset-inline: 0;
+  bottom: 0;
+  z-index: 9998;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  padding: 20px var(--gutter);
+  box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.3);
+}
+
+.cookie-banner-inner {
+  max-width: var(--container);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.cookie-text {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--muted);
+  flex: 1 1 300px;
+}
+
+.cookie-text a {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
+
+.cookie-text a:hover {
+  color: var(--accent);
+}
+
+.cookie-actions {
+  display: flex;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.cookie-accept,
+.cookie-decline {
+  padding: 10px 20px;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 600px) {
+  .cookie-banner-inner {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .cookie-actions {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* ========================================
+   Form Consent Checkbox
+   ======================================== */
+.form-consent {
+  margin-bottom: 16px;
+}
+
+.consent-label {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.consent-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex-shrink: 0;
+  accent-color: var(--accent);
+  cursor: pointer;
+  margin-top: 2px;
+}
+
+.consent-label span a {
+  color: var(--accent-2);
+  text-decoration: underline;
+}
+
+.consent-label span a:hover {
+  color: var(--accent);
+}
+
+.consent-label input[type="checkbox"]:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   Legal Pages Styling
+   ======================================== */
+.legal-heading {
+  font-size: clamp(18px, 2.2vw, 22px);
+  font-weight: 700;
+  color: var(--text);
+  margin: 28px 0 12px;
+}
+
+.legal-text {
+  margin: 0 0 16px;
+  color: rgba(234, 241, 242, 0.78);
+  line-height: 1.7;
+}
+
+.bullets {
+  margin: 0 0 16px;
+  padding-inline-start: 20px;
+  color: rgba(234, 241, 242, 0.78);
+  line-height: 1.8;
+}
+
+.bullets li {
+  margin-bottom: 6px;
+}
+
+.bullets a {
+  color: var(--accent-2);
+}
+
+.bullets a:hover {
+  color: var(--accent);
 }

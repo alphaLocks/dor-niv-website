@@ -1,6 +1,12 @@
 const NAV_OPEN_ATTR = "data-open";
 const WHATSAPP_NUMBER = "972524640456"; // מספר וואטסאפ של דור ניב
 
+const A11Y_STORAGE_KEYS = {
+  fontStep: "a11y_font_step",
+  linksUnderline: "a11y_links_underline",
+  reduceMotion: "a11y_reduce_motion",
+};
+
 function setExpanded(button, expanded) {
   button.setAttribute("aria-expanded", expanded ? "true" : "false");
   button.setAttribute("aria-label", expanded ? "סגור תפריט" : "פתח תפריט");
@@ -124,6 +130,193 @@ function setupLeadForm() {
   });
 }
 
+function clampNumber(value, min, max) {
+  return Math.min(max, Math.max(min, value));
+}
+
+function readStoredNumber(key, fallback) {
+  const raw = window.localStorage.getItem(key);
+  if (raw == null) return fallback;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function readStoredBoolean(key, fallback) {
+  const raw = window.localStorage.getItem(key);
+  if (raw == null) return fallback;
+  if (raw === "true") return true;
+  if (raw === "false") return false;
+  return fallback;
+}
+
+function applyA11yState({ fontStep, linksUnderline, reduceMotion }) {
+  const root = document.documentElement;
+  root.setAttribute("data-a11y-font", String(fontStep));
+  root.setAttribute("data-a11y-reduce-motion", reduceMotion ? "true" : "false");
+  document.body.setAttribute("data-a11y-links", linksUnderline ? "true" : "false");
+}
+
+function setupA11yWidget() {
+  const widget = document.querySelector("[data-a11y-widget]");
+  const toggle = document.querySelector("[data-a11y-toggle]");
+  const panel = document.querySelector("[data-a11y-panel]");
+  if (!(widget instanceof HTMLElement)) return;
+  if (!(toggle instanceof HTMLButtonElement)) return;
+  if (!(panel instanceof HTMLElement)) return;
+
+  let fontStep = clampNumber(readStoredNumber(A11Y_STORAGE_KEYS.fontStep, 0), -1, 2);
+  let linksUnderline = readStoredBoolean(A11Y_STORAGE_KEYS.linksUnderline, false);
+  let reduceMotion = readStoredBoolean(A11Y_STORAGE_KEYS.reduceMotion, false);
+
+  const linksInput = panel.querySelector("[data-a11y-links]");
+  const motionInput = panel.querySelector("[data-a11y-reduce-motion]");
+  if (linksInput instanceof HTMLInputElement) linksInput.checked = linksUnderline;
+  if (motionInput instanceof HTMLInputElement) motionInput.checked = reduceMotion;
+
+  applyA11yState({ fontStep, linksUnderline, reduceMotion });
+
+  const setExpanded = (expanded) => {
+    toggle.setAttribute("aria-expanded", expanded ? "true" : "false");
+    panel.hidden = !expanded;
+    toggle.setAttribute("aria-label", expanded ? "סגור אפשרויות נגישות" : "פתיחת אפשרויות נגישות");
+  };
+
+  const isOpen = () => !panel.hidden;
+
+  const close = () => {
+    if (!isOpen()) return;
+    setExpanded(false);
+    toggle.focus();
+  };
+
+  const open = () => {
+    if (isOpen()) return;
+    setExpanded(true);
+    const firstFocusable = panel.querySelector("button, input, a");
+    if (firstFocusable instanceof HTMLElement) requestAnimationFrame(() => firstFocusable.focus());
+  };
+
+  toggle.addEventListener("click", () => {
+    if (isOpen()) close();
+    else open();
+  });
+
+  panel.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof HTMLElement)) return;
+
+    const fontAction = target.getAttribute("data-a11y-font");
+    if (fontAction === "increase") fontStep = clampNumber(fontStep + 1, -1, 2);
+    else if (fontAction === "decrease") fontStep = clampNumber(fontStep - 1, -1, 2);
+    else if (fontAction === "reset") fontStep = 0;
+    else return;
+
+    window.localStorage.setItem(A11Y_STORAGE_KEYS.fontStep, String(fontStep));
+    applyA11yState({ fontStep, linksUnderline, reduceMotion });
+  });
+
+  if (linksInput instanceof HTMLInputElement) {
+    linksInput.addEventListener("change", () => {
+      linksUnderline = !!linksInput.checked;
+      window.localStorage.setItem(A11Y_STORAGE_KEYS.linksUnderline, String(linksUnderline));
+      applyA11yState({ fontStep, linksUnderline, reduceMotion });
+    });
+  }
+
+  if (motionInput instanceof HTMLInputElement) {
+    motionInput.addEventListener("change", () => {
+      reduceMotion = !!motionInput.checked;
+      window.localStorage.setItem(A11Y_STORAGE_KEYS.reduceMotion, String(reduceMotion));
+      applyA11yState({ fontStep, linksUnderline, reduceMotion });
+    });
+  }
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key !== "Escape") return;
+    close();
+  });
+
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Node)) return;
+    if (!isOpen()) return;
+    if (widget.contains(target)) return;
+    setExpanded(false);
+  });
+}
+
 setupNav();
 setupYear();
 setupLeadForm();
+setupA11yWidget();
+setupCookieBanner();
+
+/* ========================================
+   Cookie Consent Banner
+   ======================================== */
+const COOKIE_CONSENT_KEY = "cookie_consent";
+
+function getCookieConsent() {
+  return window.localStorage.getItem(COOKIE_CONSENT_KEY);
+}
+
+function setCookieConsent(value) {
+  window.localStorage.setItem(COOKIE_CONSENT_KEY, value);
+}
+
+function setupCookieBanner() {
+  const banner = document.getElementById("cookieBanner");
+  if (!(banner instanceof HTMLElement)) return;
+
+  const consent = getCookieConsent();
+
+  // If user already made a choice, don't show banner
+  if (consent === "accepted" || consent === "declined") {
+    banner.hidden = true;
+    if (consent === "accepted") {
+      loadAnalytics();
+    }
+    return;
+  }
+
+  // Show the banner
+  banner.hidden = false;
+
+  const acceptBtn = banner.querySelector("[data-cookie-accept]");
+  const declineBtn = banner.querySelector("[data-cookie-decline]");
+
+  if (acceptBtn instanceof HTMLButtonElement) {
+    acceptBtn.addEventListener("click", () => {
+      setCookieConsent("accepted");
+      banner.hidden = true;
+      loadAnalytics();
+    });
+  }
+
+  if (declineBtn instanceof HTMLButtonElement) {
+    declineBtn.addEventListener("click", () => {
+      setCookieConsent("declined");
+      banner.hidden = true;
+    });
+  }
+}
+
+function loadAnalytics() {
+  // Google Analytics 4 - Replace GA_MEASUREMENT_ID with your actual GA4 ID
+  // Uncomment and configure when ready to use
+  /*
+  const GA_MEASUREMENT_ID = "G-XXXXXXXXXX";
+  
+  const script = document.createElement("script");
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+  document.head.appendChild(script);
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() { dataLayer.push(arguments); }
+  gtag("js", new Date());
+  gtag("config", GA_MEASUREMENT_ID);
+  */
+  
+  console.log("Analytics cookies accepted - ready to load tracking scripts");
+}
