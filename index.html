@@ -94,75 +94,27 @@
     </header>
 
     <main id="main">
-      <section class="hero" id="top" aria-label="פתיח">
-        <div class="container hero-grid">
-          <div class="hero-content">
-            <p class="eyebrow">BREAK YOUR LIMITS</p>
-            <h1>הגיע הזמן להפסיק להיפצע ולהתחיל ליהנות מהריצה</h1>
-            <p class="lead">
-              כבר עזרתי להמון מתאמנים, ועכשיו הגיע הזמן שלך. להפסיק לסבול, לרוץ בלי כאבים, ולקבל את הכלים הנכונים עם תוכנית מותאמת אישית.
-            </p>
-
-            <ul class="checklist" aria-label="נקודות מרכזיות">
-              <li>שיחת ייעוץ ראשונית ללא עלות</li>
-              <li>תוכנית מותאמת אישית למטרה שלך (10K / חצי מרתון / מרתון)</li>
-              <li>מעקב שבועי + התאמות עומסים לפי נתונים והרגשה</li>
-            </ul>
-
-            <div class="hero-actions">
-              <a class="btn primary" href="#lead">לשיחת ייעוץ ללא עלות</a>
-              <a
-                class="btn ghost"
-                href="https://www.youtube.com/@Runningbreaksyourlimits"
-                target="_blank"
-                rel="noopener"
-              >
-                לערוץ היוטיוב
-              </a>
-            </div>
-
-            <p class="micro">
-              אימון מדויק | ליווי אישי • מתאים גם לליווי מרחוק • קצב התקדמות חכם (לא “לקרוע בכל אימון”)
-            </p>
-          </div>
-
-          <div class="hero-media" aria-label="תמונה ראשית">
-            <div class="media-card">
-              <picture>
-                <source
-                  type="image/webp"
-                  srcset="images/IMG_9680-400.webp 400w, images/IMG_9680-480.webp 480w, images/IMG_9680-800.webp 800w"
-                  sizes="(max-width: 960px) 100vw, 380px"
-                />
-                <img
-                  src="images/IMG_9680-800.jpg"
-                  srcset="images/IMG_9680-480.jpg 480w, images/IMG_9680-800.jpg 800w"
-                  sizes="(max-width: 960px) 100vw, 380px"
-                  width="800"
-                  height="794"
-                  alt="דור ניב"
-                  decoding="async"
-                  fetchpriority="high"
-                  style="width: 100%; height: auto; display: block;"
-                />
-              </picture>
-              <div class="media-card-caption">
-                <p class="caption-title">דור ניב</p>
-                <p class="caption-subtitle">מאמן ריצה למרחקים ארוכים • Break Your Limits</p>
-              </div>
-            </div>
-          </div>
+      <!-- Hero מינימלי - רק כותרת + חץ -->
+      <section class="hero hero-minimal" id="top" aria-label="פתיח">
+        <div class="container hero-minimal-content">
+          <p class="eyebrow">BREAK YOUR LIMITS</p>
+          <h1>הגיע הזמן להפסיק להיפצע<br>ולהתחיל ליהנות מהריצה</h1>
+          <a href="#results" class="scroll-arrow" aria-label="גלול למטה לראות תוצאות">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 5v14M5 12l7 7 7-7"/>
+            </svg>
+          </a>
         </div>
       </section>
 
-      <section class="section alt" id="results" aria-label="שיאים של מתאמנים">
+      <!-- שיאים של מתאמנים - הועבר להיות הדבר הראשון שרואים -->
+      <section class="section results-hero" id="results" aria-label="שיאים של מתאמנים">
         <div class="container">
-          <h2 class="section-title">שיאים של מתאמנים</h2>
+          <h2 class="section-title results-main-title">הנה כמה חיילים שכבר סיימו את התהליך:</h2>
           <p class="section-subtitle">
-            כאן תוסיפו בהמשך תמונות, צילומי מסך ותוצאות של מתאמנים (שיאים אישיים, שיפור קצב, חזרה מפציעה ועוד).
+            מתאמנים אמיתיים, שיאים אמיתיים — לא חלומות, רק עבודה נכונה.
           </p>
-
-          <div class="results-grid" role="list" aria-label="גלריית תוצאות (מקום לתמונות)">
+          <div class="results-grid" role="list" aria-label="גלריית תוצאות">
             <figure class="result-card" role="listitem">
               <picture>
                 <source
@@ -263,6 +215,10 @@
                 />
               </picture>
             </figure>
+          </div>
+          
+          <div class="center-actions" style="margin-top: 32px;">
+            <a class="btn primary" href="#lead">להצטרפות לתכנית</a>
           </div>
         </div>
       </section>
@@ -678,6 +634,54 @@
       </svg>
     </a>
 
+    <!-- Lead Popup Modal -->
+    <div class="lead-popup" id="leadPopup" role="dialog" aria-labelledby="popupTitle" aria-modal="true" hidden>
+      <div class="lead-popup-overlay" data-popup-close></div>
+      <div class="lead-popup-content">
+        <button class="lead-popup-close" type="button" aria-label="סגור" data-popup-close>
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M18 6L6 18M6 6l12 12"/>
+          </svg>
+        </button>
+        
+        <div class="lead-popup-header">
+          <h2 id="popupTitle">רוצים לשבור את הגבולות שלכם?</h2>
+          <p>השאירו פרטים לשיחת ייעוץ חינם ונתחיל לעבוד על המטרה הבאה שלכם!</p>
+        </div>
+        
+        <form class="lead-popup-form" id="popupLeadForm" novalidate>
+          <div class="form-row">
+            <label for="popup-name">שם מלא</label>
+            <input id="popup-name" name="name" type="text" autocomplete="name" required />
+          </div>
+
+          <div class="form-row">
+            <label for="popup-phone">טלפון</label>
+            <input id="popup-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required />
+          </div>
+
+          <div class="form-row">
+            <label for="popup-goal">המטרה שלך</label>
+            <select id="popup-goal" name="goal" required>
+              <option value="" selected disabled>בחרו מטרה…</option>
+              <option value="10K">10K</option>
+              <option value="חצי מרתון">חצי מרתון (21.1)</option>
+              <option value="מרתון">מרתון (42.2)</option>
+              <option value="טריאתלון">טריאתלון / איש ברזל</option>
+              <option value="לרוץ בלי כאבים">לחזור לרוץ בלי כאבים</option>
+              <option value="אחר">אחר</option>
+            </select>
+          </div>
+
+          <button class="btn primary btn-block" type="submit">שלחו פרטים עכשיו!</button>
+          
+          <div class="form-success" role="status" aria-live="polite" hidden>
+            תודה רבה! ניצור קשר בהקדם.
+          </div>
+        </form>
+      </div>
+    </div>
+
     <!-- Cookie Consent Banner -->
     <div class="cookie-banner" id="cookieBanner" role="dialog" aria-label="הסכמה לעוגיות" hidden>
       <div class="cookie-banner-inner">
@@ -690,5 +694,62 @@
         </div>
       </div>
     </div>
+
+    <!-- Footer -->
+    <footer class="footer" role="contentinfo">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-info">
+            <h3>דור ניב - מאמן ריצה מרחקים ארוכים</h3>
+            <p>Break Your Limits</p>
+            <div class="footer-contact">
+              <p><strong>טלפון:</strong> <a href="tel:+972524640456">052-464-0456</a></p>
+              <p><strong>אימייל:</strong> <a href="mailto:dorniv20@gmail.com">dorniv20@gmail.com</a></p>
+            </div>
+            <div class="footer-social">
+              <a href="https://www.youtube.com/@Runningbreaksyourlimits" target="_blank" rel="noopener" aria-label="ערוץ יוטיוב">
+                <svg viewBox="0 0 576 512" fill="currentColor" width="24" height="24">
+                  <path d="M549.655 124.083c-6.281-23.65-24.787-42.276-48.284-48.597C458.781 64 288 64 288 64S117.22 64 74.629 75.486c-23.497 6.322-42.003 24.947-48.284 48.597-11.412 42.867-11.412 132.305-11.412 132.305s0 89.438 11.412 132.305c6.281 23.65 24.787 41.5 48.284 47.821C117.22 448 288 448 288 448s170.78 0 213.371-11.486c23.497-6.321 42.003-24.171 48.284-47.821 11.412-42.867 11.412-132.305 11.412-132.305s0-89.438-11.412-132.305zm-317.51 213.508V175.185l142.739 81.205-142.739 81.201z"/>
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/dor_niv_running/" target="_blank" rel="noopener" aria-label="אינסטגרם">
+                <svg viewBox="0 0 448 512" fill="currentColor" width="24" height="24">
+                  <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
+                </svg>
+              </a>
+              <a href="https://wa.me/972524640456" target="_blank" rel="noopener" aria-label="וואטסאפ">
+                <svg viewBox="0 0 448 512" fill="currentColor" width="24" height="24">
+                  <path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3L72 359.2l-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+          
+          <div class="footer-map">
+            <iframe 
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3592297.3781818217!2d32.44095675785349!3d31.383878111973523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xa722234f374a5fef%3A0xf1bf847734640d0a!2z15PXldeoINeg15nXkSDXnteQ157XnyDXqNeZ16bXlA!5e1!3m2!1sen!2sus!4v1767059501579!5m2!1sen!2sus" 
+              width="100%" 
+              height="300" 
+              style="border:0;" 
+              allowfullscreen="" 
+              loading="lazy" 
+              referrerpolicy="no-referrer-when-downgrade"
+              title="מיקום - דור ניב מאמן ריצה"
+            ></iframe>
+          </div>
+        </div>
+        
+        <div class="footer-bottom">
+          <div class="footer-links">
+            <a href="privacy-policy.html">מדיניות פרטיות</a>
+            <a href="terms.html">תנאי שימוש</a>
+            <a href="accessibility-statement.html">הצהרת נגישות</a>
+          </div>
+          <p class="footer-copyright">
+            &copy; <span id="currentYear">2025</span> דור ניב - Break Your Limits. כל הזכויות שמורות.
+          </p>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

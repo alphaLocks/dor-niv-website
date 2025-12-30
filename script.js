@@ -250,6 +250,111 @@ setupYear();
 setupLeadForm();
 setupA11yWidget();
 setupCookieBanner();
+setupLeadPopup();
+
+/* ========================================
+   Lead Popup - מופיע אחרי 4 שניות
+   ======================================== */
+const POPUP_SHOWN_KEY = "lead_popup_shown";
+const POPUP_DELAY = 4000; // 4 שניות
+
+function hasPopupBeenShown() {
+  return window.sessionStorage.getItem(POPUP_SHOWN_KEY) === "true";
+}
+
+function markPopupAsShown() {
+  window.sessionStorage.setItem(POPUP_SHOWN_KEY, "true");
+}
+
+function setupLeadPopup() {
+  const popup = document.getElementById("leadPopup");
+  if (!(popup instanceof HTMLElement)) return;
+
+  // אם הפופאפ כבר הוצג בסשן הזה, לא מציגים שוב
+  if (hasPopupBeenShown()) return;
+
+  // הצגת הפופאפ אחרי 4 שניות
+  setTimeout(() => {
+    if (hasPopupBeenShown()) return; // בדיקה נוספת
+    openPopup(popup);
+    markPopupAsShown();
+  }, POPUP_DELAY);
+
+  // כפתורי סגירה
+  const closeButtons = popup.querySelectorAll("[data-popup-close]");
+  closeButtons.forEach((btn) => {
+    btn.addEventListener("click", () => closePopup(popup));
+  });
+
+  // סגירה עם ESC
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && !popup.hidden) {
+      closePopup(popup);
+    }
+  });
+
+  // טיפול בטופס בפופאפ
+  const form = document.getElementById("popupLeadForm");
+  if (!(form instanceof HTMLFormElement)) return;
+
+  const success = form.querySelector(".form-success");
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+
+    const name = form.elements.namedItem("name");
+    const phone = form.elements.namedItem("phone");
+    const goal = form.elements.namedItem("goal");
+
+    if (!(name instanceof HTMLInputElement)) return;
+    if (!(phone instanceof HTMLInputElement)) return;
+    if (!(goal instanceof HTMLSelectElement)) return;
+
+    if (!name.value.trim() || !phone.value.trim() || !goal.value) {
+      alert("נא למלא את כל השדות החובה");
+      return;
+    }
+
+    // הכנת הודעת וואטסאפ
+    const message = `שלום, אני ${name.value.trim()}\nטלפון: ${phone.value.trim()}\nמטרה: ${goal.value}\n\nאשמח לשיחת ייעוץ חינם!`;
+    const whatsappURL = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    // הצגת הודעת הצלחה
+    if (success instanceof HTMLElement) {
+      success.hidden = false;
+      
+      // פתיחת וואטסאפ אחרי שנייה
+      setTimeout(() => {
+        window.open(whatsappURL, "_blank", "noopener,noreferrer");
+        
+        // סגירת הפופאפ אחרי 2 שניות נוספות
+        setTimeout(() => {
+          closePopup(popup);
+        }, 2000);
+      }, 1000);
+    } else {
+      // אם אין אלמנט success, פותחים וואטסאפ מיד
+      window.open(whatsappURL, "_blank", "noopener,noreferrer");
+      closePopup(popup);
+    }
+  });
+}
+
+function openPopup(popup) {
+  popup.hidden = false;
+  document.body.style.overflow = "hidden"; // מניעת גלילה ברקע
+  
+  // פוקוס על האלמנט הראשון בטופס
+  const firstInput = popup.querySelector("input, select");
+  if (firstInput instanceof HTMLElement) {
+    setTimeout(() => firstInput.focus(), 100);
+  }
+}
+
+function closePopup(popup) {
+  popup.hidden = true;
+  document.body.style.overflow = ""; // החזרת גלילה
+}
 
 /* ========================================
    Cookie Consent Banner
