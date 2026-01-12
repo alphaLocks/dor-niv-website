@@ -1450,6 +1450,16 @@ html[data-a11y-reduce-motion="true"] * {
   margin: 0;
 }
 
+.footer-copyright a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-copyright a:hover {
+  color: var(--accent-2);
+}
+
 /* ========================================
    Lead Popup Modal
    ======================================== */
